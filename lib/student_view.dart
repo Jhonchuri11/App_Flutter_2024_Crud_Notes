@@ -1,19 +1,19 @@
-import 'package:app13/note.dart';
-import 'package:app13/note_database.dart';
-import 'package:app13/note_details_view.dart';
+import 'package:app13/student.dart';
+import 'package:app13/student_database.dart';
+import 'package:app13/student_details_view.dart';
 import 'package:flutter/material.dart';
 
-class NotesView extends StatefulWidget {
-  const NotesView({super.key});
+class StudentView extends StatefulWidget {
+  const StudentView({super.key});
 
   @override
-  State<NotesView> createState() => _NotesViewState();
+  State<StudentView> createState() => _StudentViewState();
 }
 
-class _NotesViewState extends State<NotesView> {
-  NoteDatabase noteDatabase = NoteDatabase.instance;
+class _StudentViewState extends State<StudentView> {
+  StudentDatabase studentDatabase = StudentDatabase.instance;
 
-  List<NoteModel> notes = [];
+  List<StudentModel> students = [];
 
   @override
   void initState() {
@@ -24,24 +24,24 @@ class _NotesViewState extends State<NotesView> {
   @override
   dispose() {
     //close the database
-    noteDatabase.close();
+    studentDatabase.close();
     super.dispose();
   }
 
   ///Gets all the notes from the database and updates the state
   refreshNotes() {
-    noteDatabase.readAll().then((value) {
+    studentDatabase.readAll().then((value) {
       setState(() {
-        notes = value;
+        students = value;
       });
     });
   }
 
   ///Navigates to the NoteDetailsView and refreshes the notes after the navigation
-  goToNoteDetailsView({int? id}) async {
+  goToStudentDetailsView({int? id}) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NoteDetailsView(noteId: id)),
+      MaterialPageRoute(builder: (context) => StudentDetailsView(noteId: id)),
     );
     refreshNotes();
   }
@@ -60,17 +60,17 @@ class _NotesViewState extends State<NotesView> {
         ],
       ),
       body: Center(
-        child: notes.isEmpty
+        child: students.isEmpty
             ? const Text(
-                'No Notes yet',
+                'No Student yet',
                 style: TextStyle(color: Colors.white),
               )
             : ListView.builder(
-                itemCount: notes.length,
+                itemCount: students.length,
                 itemBuilder: (context, index) {
-                  final note = notes[index];
+                  final student = students[index];
                   return GestureDetector(
-                    onTap: () => goToNoteDetailsView(id: note.id),
+                    onTap: () => goToStudentDetailsView(id: student.id),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Card(
@@ -80,10 +80,10 @@ class _NotesViewState extends State<NotesView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                note.createdTime.toString().split(' ')[0],
+                                student.createdTime.toString().split(' ')[0],
                               ),
                               Text(
-                                note.title,
+                                student.name,
                                 style:
                                     Theme.of(context).textTheme.headlineMedium,
                               ),
@@ -96,8 +96,8 @@ class _NotesViewState extends State<NotesView> {
                 }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: goToNoteDetailsView,
-        tooltip: 'Create Note',
+        onPressed: goToStudentDetailsView,
+        tooltip: 'Create Student',
         child: const Icon(Icons.add),
       ),
     );

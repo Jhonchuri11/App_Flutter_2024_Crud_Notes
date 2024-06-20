@@ -46,7 +46,7 @@ class _NoteDetailsViewState extends State<NoteDetailsView> {
   }
 
   ///Creates a new note if the isNewNote is true else it updates the existing note
-  createNote() {
+  createNote() async {
     setState(() {
       isLoading = true;
     });
@@ -66,6 +66,7 @@ class _NoteDetailsViewState extends State<NoteDetailsView> {
     setState(() {
       isLoading = false;
     });
+    Navigator.pop(context);
   }
 
   ///Deletes the note from the database and navigates back to the previous screen

@@ -1,4 +1,4 @@
-import 'package:app13/note_view.dart';
+import 'package:app13/student_view.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const NotesView(),
+      home: const StudentView(),
     );
   }
 }
